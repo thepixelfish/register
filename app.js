@@ -1,7 +1,7 @@
 var onHeroku = (typeof process.env.port !== 'undefined');
 
 if(onHeroku){
-  dbString = "mongodb://heroku:edgecase@staff.mongohq.com:10092/app2630624";
+  dbString = "mongodb://heroku:edgecase@staff.mongohq.com:10066/app2636005";
   port     = process.env.PORT;
 } else {
   dbString = "localhost:27017/crb_register";
