@@ -1,4 +1,4 @@
-var onHeroku = (typeof process.env.port !== 'undefined');
+var onHeroku = process.env.port;
 
 if(onHeroku){
   dbString = "mongodb://heroku:edgecase@staff.mongohq.com:10066/app2636005";
