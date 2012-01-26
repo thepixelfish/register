@@ -78,7 +78,9 @@ io.sockets.on('connection', function(socket){
   });
 
   socket.on('winnerChosen', function(data){
-    io.sockets.emit('showWinner', data);
+    coll.update({old: false}, {$set: {winner: false}}, {multi: true}); // reset winner
+    coll.update({old: false, email: data.email}, {$set: {winner: true}}); // set winner
+    io.sockets.emit('showWinner', data.row);
   });
 });
 

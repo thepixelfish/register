@@ -9,7 +9,7 @@
 
 #admin-link Super Secret Admin Area
 #admin-area(style="display:none;")
-  input#unlock-code.span2(type="password", placeholder="Unlock Code")
+  input#unlock-code.span2(type="password")
 
   #actions(style="display:none;")
     input#random-entry.btn.success(type="submit", value="Pick Winner")
@@ -26,8 +26,12 @@
     option ReSharper
 
   .checkbox
-    input#newbie(type="checkbox")
-    label(for="newbie") Newbie?
+    input#new-to-ruby(type="checkbox")
+    label(for="new-to-ruby") New to Ruby?
+
+  .checkbox
+    input#new-to-crb(type="checkbox")
+    label(for="new-to-crb") New to CRB?
 
   input#save.btn.primary(type="submit", value="Save")
 
@@ -39,7 +43,8 @@ table#contest.condensed-table.zebra-striped
       th Name
       th Email
       th License
-      th Newbie?
+      th New to CRB?
+      th New to Ruby?
 
   tbody
 
@@ -51,7 +56,8 @@ script#entry-template(type='text/x-handlebars-template')
     td.name {{name}}
     td.email {{email}}
     td.license {{license}}
-    td.newbie {{newbie}}
+    td.new-to-crb {{new-to-crb}}
+    td.new-to-ruby {{new-to-ruby}}
 
 
 script(type='text/javascript')

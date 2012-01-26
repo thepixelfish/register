@@ -17,7 +17,7 @@ $(function(){
     rows.removeClass('winner').mouseleave();
 
     $('html, body').animate({scrollTop: middle}, 500, function(){
-      winner.effect('pulsate', {times:2}).addClass('winner').mouseenter();
+      winner.effect('pulsate', {times:1}).addClass('winner').mouseenter();
     });
   });
 
@@ -25,15 +25,12 @@ $(function(){
     $('table#contest tbody tr').fadeOut(1000, function(){ $(this).remove(); });
   });
 
-  var prependEntry = function(entry){
-    target.prepend(template(entry)).children(':first').hide().fadeIn(1500);
-  };
-
   //--- bindings
 
   $('#admin-link').click(function(){
     $(this).hide();
     $('#admin-area').show('blind');
+    $('#unlock-code').focus();
   });
 
   $('#unlock-code').keyup(function(e){
@@ -57,15 +54,16 @@ $(function(){
 
   $('#save').click(function(e){
     e.preventDefault();
-    var nameInput      = $('input#name');
-    var emailInput     = $('input#email');
-    var licenseSelect  = $('select#license');
-    var newbieCheckbox = $('input#newbie');
-    var submitButton   = $(this);
-    var fields         = [nameInput, emailInput, licenseSelect, newbieCheckbox];
-    var submittable    = true;
-    var data           = {};
-    var table          = $('table#contest tbody');
+    var nameInput         = $('input#name');
+    var emailInput        = $('input#email');
+    var licenseSelect     = $('select#license');
+    var newToRubyCheckbox = $('input#new-to-ruby');
+    var newToCrbCheckbox  = $('input#new-to-crb');
+    var submitButton      = $(this);
+    var fields            = [nameInput, emailInput, licenseSelect, newToRubyCheckbox, newToCrbCheckbox];
+    var submittable       = true;
+    var data              = {};
+    var table             = $('table#contest tbody');
 
     $.each(fields, function(i, input){
       if(input.val() === ""){
@@ -74,7 +72,7 @@ $(function(){
         submittable = false;
       } else {
         if(input.attr('type') === "checkbox"){
-          var val = input.is(':checked') ? "Welcome!" : ""
+          var val = input.is(':checked') ? "Welcome!" : "";
         } else {
           var val = input.val();
         }
@@ -94,9 +92,10 @@ $(function(){
 
   $('#random-entry').click(function(e){
     e.preventDefault();
-    var rows   = $('table#contest tbody tr');
-    var random = Math.ceil(Math.random() * rows.length);
-    socket.emit('winnerChosen', random);
+    var rows  = $('table#contest tbody tr');
+    var row   = Math.ceil(Math.random() * rows.length);
+    var email = rows.eq(row - 1).find('.email').html();
+    socket.emit('winnerChosen', {row: row, email: email});
   });
 
   $('tbody tr').live({
@@ -105,10 +104,15 @@ $(function(){
   });
 
   $('#save-entries').click(function(){
+    $('#admin-area').fadeOut(1000);
     socket.emit('consumeEntries');
   });
 
   //--- page init
+
+  var prependEntry = function(entry){
+    target.prepend(template(entry)).children(':first').hide().fadeIn(1500);
+  };
 
   $.each(window.entries, function(i, entry){
     prependEntry(entry);
