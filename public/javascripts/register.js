@@ -25,6 +25,10 @@ $(function(){
     $('table#contest tbody tr').fadeOut(1000, function(){ $(this).remove(); });
   });
 
+  socket.on('updatedEntryCount', function(count){
+    $('#count').html(count + " attendees");
+  });
+
   //--- bindings
 
   $('#admin-link').click(function(){

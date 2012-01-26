@@ -66,14 +66,24 @@ app.post('/unlock', function(req, res){
 // Sockets
 
 io.sockets.on('connection', function(socket){
+  var updateCount = function(){
+    coll.count({old: false}, function(err, count){
+      io.sockets.emit('updatedEntryCount', count);
+    });
+  }
+
+  updateCount();
+
   socket.on('submitEntry', function(data){
     data['old'] = false;
     coll.insert(data);
+    updateCount();
     io.sockets.emit('newEntryPosted', data);
   });
 
   socket.on('consumeEntries', function(){
     coll.update({old: false}, {$set: {old: true}}, {multi: true});
+    updateCount();
     io.sockets.emit('clearEntries');
   });
 

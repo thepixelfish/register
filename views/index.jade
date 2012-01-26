@@ -43,11 +43,12 @@ table#contest.condensed-table.zebra-striped
       th Name
       th Email
       th License
-      th New to CRB?
       th New to Ruby?
+      th New to CRB?
 
   tbody
 
+h5#count
 
 script#entry-template(type='text/x-handlebars-template')
   tr
@@ -56,8 +57,8 @@ script#entry-template(type='text/x-handlebars-template')
     td.name {{name}}
     td.email {{email}}
     td.license {{license}}
-    td.new-to-crb {{new-to-crb}}
     td.new-to-ruby {{new-to-ruby}}
+    td.new-to-crb {{new-to-crb}}
 
 
 script(type='text/javascript')
