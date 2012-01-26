@@ -1,0 +1,64 @@
+.page-header
+  h1
+    = "Columbus CRB Register "
+    small JetBrains License Giveaway
+
+#blurb
+  p One entry per attendee. The CRB host will use this email address as the licensee address.
+  p Licenses arrive via email &mdash; usually within three weeks.
+
+#admin-link Super Secret Admin Area
+#admin-area(style="display:none;")
+  input#unlock-code.span2(type="password", placeholder="Unlock Code")
+
+  #actions(style="display:none;")
+    input#random-entry.btn.success(type="submit", value="Pick Winner")
+    input#save-entries.btn.danger(type="submit", value="Consume Entries")
+
+#new-entry-form
+  input#name.span4(type="text", value="", placeholder="Name")
+  input#email.span4(type="email", value="", placeholder="Email")
+
+  select#license.span3
+    option RubyMine
+    option PyCharm
+    option IntelliJ IDEA
+    option ReSharper
+
+  .checkbox
+    input#newbie(type="checkbox")
+    label(for="newbie") Newbie?
+
+  input#save.btn.primary(type="submit", value="Save")
+
+
+table#contest.condensed-table.zebra-striped
+  thead
+    tr
+      th &nbsp;
+      th Name
+      th Email
+      th License
+      th Newbie?
+
+  tbody
+
+
+script#entry-template(type='text/x-handlebars-template')
+  tr
+    td.gravatar
+      img(src="http://www.gravatar.com/avatar/{{hash}}?s=64")
+    td.name {{name}}
+    td.email {{email}}
+    td.license {{license}}
+    td.newbie {{newbie}}
+
+
+script(type='text/javascript')
+  $(function(){
+    window.length  = #{length};
+    window.entries = !{entries};
+  });
+
+script(type='text/javascript', src="/socket.io/socket.io.js")
+script(type='text/javascript', src="/javascripts/register.js")

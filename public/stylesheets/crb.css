@@ -1,0 +1,17 @@
+.container{width:960px;margin:auto;position:relative}
+table#contest td{line-height:26px;vertical-align:middle;}
+table#contest td.gravatar img{width:24px;height:24px}
+input.error{border-color:#dc143c;color:#dc143c}
+tr.winner td{font-weight:bold;background:#eeebbb !important}
+#admin-area{position:absolute;top:0;right:0;padding:1em;background:#f5f5f5;border:1px solid #ddd;}
+#admin-area #actions input{margin-right:1em;}
+#admin-area #actions input:last-child{margin-right:0}
+#admin-link{position:absolute;top:10px;right:10px;cursor:default;color:#fff}
+#blurb{margin-bottom:2em;}
+#blurb p{margin:0;font-style:italic}
+#new-entry-form{background:#f5f5f5;border:1px solid #ddd;margin-bottom:2em;padding:1em;}
+#new-entry-form input,#new-entry-form select{margin-right:1em;}
+#new-entry-form input:last-child,#new-entry-form select:last-child{margin-right:0}
+#new-entry-form .checkbox{display:inline;margin-right:1em;}
+#new-entry-form .checkbox input{margin-right:.5em}
+#new-entry-form .checkbox label{display:inline;font-weight:bold;float:none;width:40px;text-align:left}
