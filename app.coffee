@@ -1,5 +1,8 @@
 # Bootstrapping
 
+require('coffee-script')
+require('./index')
+
 onHeroku = process.env.PORT
 
 if onHeroku
