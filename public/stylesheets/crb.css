@@ -3,7 +3,7 @@ table#contest th{border-bottom:1px solid #ddd !important}
 table#contest td{line-height:26px;vertical-align:middle;}
 table#contest td.gravatar img{width:24px;height:24px}
 #count{text-align:center;font-weight:bold}
-input.error{border-color:#dc143c;color:#dc143c}
+input.error,select.error{border-color:#dc143c;color:#dc143c}
 tr.winner td{font-weight:bold;background:#fce9bf !important}
 #admin-area{position:absolute;top:0;right:0;padding:1em;background:#f5f5f5;border:1px solid #ddd;-moz-box-shadow:0 0 5px #888;-webkit-box-shadow:0 0 5px #888;box-shadow:0 0 5px #888;}
 #admin-area #unlock-code{text-align:center;font-weight:bold}

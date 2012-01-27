@@ -14,10 +14,10 @@ $(function(){
     var rows   = $('table#contest tbody tr');
     var winner = rows.eq(parseInt(num) - 1);
     var middle = winner.offset().top - ($(window).height() / 2);
-    rows.removeClass('winner').mouseleave();
+    rows.removeClass('winner').find('.gravatar img').mouseleave();
 
     $('html, body').animate({scrollTop: middle}, 500, function(){
-      winner.effect('pulsate', {times:1}).addClass('winner').mouseenter();
+      winner.effect('pulsate', {times:1}).addClass('winner').find('.gravatar img').mouseenter();
     });
   });
 
@@ -51,7 +51,7 @@ $(function(){
     }
   });
 
-  $('#name, #email').keyup(function(e){
+  $('#name, #email, #license').bind("keyup change", function(e){
     $('#save').removeClass('disabled');
     $(this).removeClass('error');
   });
@@ -60,31 +60,42 @@ $(function(){
     e.preventDefault();
     var nameInput         = $('input#name');
     var emailInput        = $('input#email');
+    var twitterInput      = $('input#twitter');
     var licenseSelect     = $('select#license');
     var newToRubyCheckbox = $('input#new-to-ruby');
     var newToCrbCheckbox  = $('input#new-to-crb');
     var submitButton      = $(this);
-    var fields            = [nameInput, emailInput, licenseSelect, newToRubyCheckbox, newToCrbCheckbox];
+    var fields            = [nameInput, emailInput, twitterInput, licenseSelect, newToRubyCheckbox, newToCrbCheckbox];
     var submittable       = true;
     var data              = {};
     var table             = $('table#contest tbody');
 
-    $.each(fields, function(i, input){
-      if(input.val() === ""){
-        input.addClass('error');
-        submitButton.addClass('disabled');
-        submittable = false;
-      } else {
-        if(input.attr('type') === "checkbox"){
-          var val = input.is(':checked') ? "Welcome!" : "";
-        } else {
-          var val = input.val();
-        }
+    var validate          = function(input, failure){
+      (input.val() !== failure) ? storeValue(input) : disableInput(input);
+    }
 
-        input.removeClass('error');
-        data[input.attr('id')] = val;
+    var disableInput      = function(input){
+      input.addClass('error');
+      submitButton.addClass('disabled');
+      submittable = false;
+    }
+
+    var storeValue        = function(input){
+      input.removeClass('error');
+      data[input.attr('id')] = input.val();
+    }
+
+    $.each(fields, function(i, input){
+      if(input === nameInput || input === emailInput){
+        validate(input, "");
+      } else if(input === licenseSelect){
+        validate(input, "Preferred License");
+      } else {
+        storeValue(input);
       }
     });
+
+    data["twitter"] = data["twitter"].replace('@', '');
 
     if(submittable){
       data["hash"] = Crypto.MD5(emailInput.val());
@@ -102,9 +113,9 @@ $(function(){
     socket.emit('winnerChosen', {row: row, email: email});
   });
 
-  $('tbody tr').live({
-    mouseenter: function(){$(this).find('td.gravatar img').stop().animate({width: "64px", height: "64px"}, 500);},
-    mouseleave: function(){$(this).find('td.gravatar img').stop().animate({width: "24px", height: "24px"}, 500);}
+  $('.gravatar img').live({
+    mouseenter: function(){$(this).stop().animate({width: "64px", height: "64px"}, 500);},
+    mouseleave: function(){$(this).stop().animate({width: "24px", height: "24px"}, 500);}
   });
 
   $('#save-entries').click(function(){

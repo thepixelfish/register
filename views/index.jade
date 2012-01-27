@@ -16,10 +16,12 @@
     input#save-entries.btn.danger(type="submit", value="Consume Entries")
 
 #new-entry-form
-  input#name.span4(type="text", value="", placeholder="Name")
-  input#email.span4(type="email", value="", placeholder="Email")
+  input#name.span3(type="text", value="", placeholder="Name")
+  input#email.span3(type="email", value="", placeholder="Email")
+  input#twitter.span2(type="text", value="", placeholder="Twitter")
 
   select#license.span3
+    option Preferred License
     option RubyMine
     option PyCharm
     option IntelliJ IDEA
@@ -42,6 +44,7 @@ table#contest.condensed-table.zebra-striped
       th &nbsp;
       th Name
       th Email
+      th Twitter
       th License
       th New to Ruby?
       th New to CRB?
@@ -56,6 +59,8 @@ script#entry-template(type='text/x-handlebars-template')
       img(src="http://www.gravatar.com/avatar/{{hash}}?s=64")
     td.name {{name}}
     td.email {{email}}
+    td.twitter
+      a(href="http://twitter.com/{{twitter}}", target="_blank") {{twitter}}
     td.license {{license}}
     td.new-to-ruby {{new-to-ruby}}
     td.new-to-crb {{new-to-crb}}
