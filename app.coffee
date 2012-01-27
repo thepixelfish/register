@@ -1,8 +1,5 @@
 # Bootstrapping
 
-require('coffee-script')
-require('./index')
-
 onHeroku = process.env.PORT
 
 if onHeroku
@@ -15,6 +12,7 @@ else
 express  = require('express')
 stylus   = require('stylus')
 mongo    = require('mongoskin')
+coffee   = require('coffee-script')
 db       = mongo.db(dbString)
 coll     = db.collection('entries')
 routes   = require('./routes')
