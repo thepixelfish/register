@@ -61,26 +61,35 @@ app.post '/unlock', (req, res) ->
 # Sockets
 
 io.sockets.on 'connection', (socket) ->
+  insertEntry = (data) ->
+    data['old'] = false
+    coll.insert data, ->
+      updateCount()
+
+  consumeEntries = ->
+    coll.update {old: false}, {$set: {old: true}}, {multi: true}, ->
+      updateCount()
+
+  setWinner = (data) ->
+    coll.update({old: false}, {$set: {winner: false}}, {multi: true}) # reset winner
+    coll.update({old: false, email: data.email}, {$set: {winner: true}}) # set winner
+
   updateCount = ->
     coll.count {old: false}, (err, count) ->
       io.sockets.emit('updatedEntryCount', count)
 
-  updateCount()
+  updateCount() # on connection
 
   socket.on 'submitEntry', (data) ->
-    data['old'] = false
-    coll.insert(data)
-    updateCount()
+    insertEntry(data)
     io.sockets.emit('newEntryPosted', data)
 
   socket.on 'consumeEntries', ->
-    coll.update({old: false}, {$set: {old: true}}, {multi: true})
-    updateCount()
+    consumeEntries()
     io.sockets.emit('clearEntries')
 
   socket.on 'winnerChosen', (data) ->
-    coll.update({old: false}, {$set: {winner: false}}, {multi: true}) # reset winner
-    coll.update({old: false, email: data.email}, {$set: {winner: true}}) # set winner
+    setWinner(data)
     io.sockets.emit('showWinner', data.row)
 
 
