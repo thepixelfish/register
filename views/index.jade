@@ -13,6 +13,7 @@
 
   #actions(style="display:none;")
     input#random-entry.btn.success(type="submit", value="Pick Winner")
+    input#clear-winner.btn(type="submit", value="Clear Winner")
     input#save-entries.btn.danger(type="submit", value="Consume Entries")
 
 #new-entry-form
@@ -54,7 +55,7 @@ table#contest.condensed-table.zebra-striped
 h5#count
 
 script#entry-template(type='text/x-handlebars-template')
-  tr
+  tr(class="{{cssClass}}")
     td.gravatar
       img(src="http://www.gravatar.com/avatar/{{hash}}?s=64")
     td.name {{name}}
@@ -62,8 +63,8 @@ script#entry-template(type='text/x-handlebars-template')
     td.twitter
       a(href="http://twitter.com/{{twitter}}", target="_blank") {{twitter}}
     td.license {{license}}
-    td.new-to-ruby {{new-to-ruby}}
-    td.new-to-crb {{new-to-crb}}
+    td.new-to-ruby {{newToRuby}}
+    td.new-to-crb {{newToCrb}}
 
 
 script(type='text/javascript')
@@ -72,5 +73,4 @@ script(type='text/javascript')
     window.entries = !{entries};
   });
 
-script(type='text/javascript', src="/socket.io/socket.io.js")
-script(type='text/javascript', src="/javascripts/register.js")
+script(type='text/javascript', src="/client.js")

@@ -9,16 +9,18 @@ else
   dbString = "localhost:27017/crb_register"
   port     = 3000
 
-express  = require('express')
-stylus   = require('stylus')
-mongo    = require('mongoskin')
-coffee   = require('coffee-script')
-db       = mongo.db(dbString)
-coll     = db.collection('entries')
-routes   = require('./routes')
-app      = module.exports = express.createServer()
-io       = require('socket.io').listen(app)
-password = "crb!"
+express   = require('express')
+stylus    = require('stylus')
+mongo     = require('mongoskin')
+coffee    = require('coffee-script')
+db        = mongo.db(dbString)
+coll      = db.collection('entries')
+routes    = require('./routes')
+app       = module.exports = express.createServer()
+io        = require('socket.io').listen(app)
+coffeeDir = __dirname + '/coffee'
+publicDir = __dirname + '/public'
+password  = "crb!"
 
 
 # Configuration
@@ -34,6 +36,9 @@ app.configure ->
     src: __dirname + "/public",
     compress: true
   }))
+
+  app.use express.compiler(src: coffeeDir, dest: publicDir, enable: ['coffeescript'])
+  app.use express.static(publicDir)
 
 if onHeroku
   io.configure ->
@@ -78,6 +83,10 @@ io.sockets.on 'connection', (socket) ->
     coll.update({old: false, email: data.email}, {$set: {winner: true}}) # set winner
     callback()
 
+  clearWinner = (callback) ->
+    coll.update({old: false}, {$set: {winner: false}}, {multi: true}) # reset winner
+    callback()
+
   updateCount = ->
     coll.count {old: false}, (err, count) ->
       io.sockets.emit('updatedEntryCount', count)
@@ -95,6 +104,10 @@ io.sockets.on 'connection', (socket) ->
   socket.on 'winnerChosen', (data) ->
     setWinner data, ->
       io.sockets.emit('showWinner', data.row)
+
+  socket.on 'winnerCleared', ->
+    clearWinner ->
+      io.sockets.emit('hideWinner')
 
 
 app.listen(port)
