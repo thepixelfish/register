@@ -32,6 +32,7 @@ app.configure ->
   app.use(express.methodOverride())
   app.use(app.router)
   app.use(express.static(__dirname + '/public'))
+  app.use(express.favicon(__dirname + '/public/favicon.ico', { maxAge: 2592000000 }))
   app.use(require("stylus").middleware({
     src: __dirname + "/public",
     compress: true

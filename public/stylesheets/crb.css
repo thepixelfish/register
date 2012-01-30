@@ -2,6 +2,7 @@
 table#contest th{border-bottom:1px solid #ddd !important}
 table#contest td{line-height:26px;vertical-align:middle;}
 table#contest td.gravatar img{width:24px;height:24px}
+table#contest td.twitter{text-transform:lowercase}
 #count{text-align:center;font-weight:bold}
 input.error,select.error{border-color:#dc143c;color:#dc143c}
 tr.winner td{font-weight:bold;background:#fce9bf !important}
