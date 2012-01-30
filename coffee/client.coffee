@@ -9,6 +9,7 @@ $ ->
     presenter.cssClass  = if entry.winner is true then "winner" else ""
     presenter.newToCrb  = if entry.new_to_crb is true then "Welcome!" else ""
     presenter.newToRuby = if entry.new_to_ruby is true then "Welcome!" else ""
+    presenter.handle    = if entry.twitter.length > 0 then "@#{entry.twitter}" else ""
     row = target.prepend(template(presenter)).children(":first").hide().fadeIn(1500)
     row.find('.gravatar img').mouseenter() if entry.winner
 
