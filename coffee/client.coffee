@@ -6,9 +6,9 @@ $ ->
 
   prependEntry = (entry) ->
     presenter           = entry
-    presenter.cssClass  = if entry.winner then "winner" else ""
-    presenter.newToCrb  = if entry["new-to-crb"] then "Welcome!" else ""
-    presenter.newToRuby = if entry["new-to-ruby"] then "Welcome!" else ""
+    presenter.cssClass  = if entry.winner is true then "winner" else ""
+    presenter.newToCrb  = if entry.new_to_crb is true then "Welcome!" else ""
+    presenter.newToRuby = if entry.new_to_ruby is true then "Welcome!" else ""
     row = target.prepend(template(presenter)).children(":first").hide().fadeIn(1500)
     row.find('.gravatar img').mouseenter() if entry.winner
 
@@ -23,16 +23,15 @@ $ ->
     clearWinner()
 
   socket.on "showWinner", (num) ->
-    rows   = $("table#contest tbody tr")
+    rows   = $('tbody tr')
     winner = rows.eq(parseInt(num) - 1)
     middle = winner.offset().top - ($(window).height() / 2)
     clearWinner()
     $("html, body").animate {scrollTop: middle}, 500, ->
       winner.effect("pulsate", {times: 1}).addClass("winner").find(".gravatar img").mouseenter()
 
-  socket.on "clearEntries", ->
-    $("table#contest tbody tr").fadeOut 1000, ->
-      $(this).remove()
+  socket.on "clearEntries", =>
+    $('tbody tr').fadeOut 1000, -> $(this).remove()
 
   socket.on "updatedEntryCount", (count) ->
     $("#count").html count + " attendees"
@@ -62,13 +61,12 @@ $ ->
     emailInput         = $("input#email")
     twitterInput       = $("input#twitter")
     licenseSelect      = $("select#license")
-    newToRubyCheckbox  = $("input#new-to-ruby")
-    newToCrbCheckbox   = $("input#new-to-crb")
+    newToRubyCheckbox  = $("input#new_to_ruby")
+    newToCrbCheckbox   = $("input#new_to_crb")
     submitButton       = $(this)
-    fields             = [ nameInput, emailInput, twitterInput, licenseSelect, newToRubyCheckbox, newToCrbCheckbox ]
+    fields             = [nameInput, emailInput, twitterInput, licenseSelect, newToRubyCheckbox, newToCrbCheckbox]
     submittable        = true
     data               = {}
-    table              = $("table#contest tbody")
     validate           = (input, failure) ->
       if input.val() isnt failure then storeValue(input) else disableInput(input)
 
@@ -79,7 +77,8 @@ $ ->
 
     storeValue = (input) ->
       input.removeClass "error"
-      data[input.attr("id")] = input.val()
+      value = if input.attr('type') is 'checkbox' then input.is(':checked') else input.val()
+      data[input.attr("id")] = value
 
     $.each fields, (i, input) ->
       if input is nameInput or input is emailInput
@@ -88,6 +87,9 @@ $ ->
         validate input, "Preferred License"
       else
         storeValue input
+
+      # An unchecked checkbox will return false and kill the loop
+      return true
 
     if submittable
       data.hash    = Crypto.MD5(emailInput.val())
@@ -102,7 +104,7 @@ $ ->
 
   $("#random-entry").click (e) ->
     e.preventDefault()
-    rows  = $("table#contest tbody tr")
+    rows   = $('tbody tr')
     row   = Math.ceil(Math.random() * rows.length)
     email = rows.eq(row - 1).find(".email").html()
     socket.emit "winnerChosen", {row: row, email: email}
@@ -111,7 +113,7 @@ $ ->
     mouseenter: -> $(this).stop().animate {width: "64px", height: "64px"}, 500
     mouseleave: -> $(this).stop().animate {width: "24px", height: "24px"}, 500
 
-  $("#save-entries").click ->
+  $("#save-entries").click (e) ->
     e.preventDefault()
     $("#admin-area").fadeOut 1000
     socket.emit "consumeEntries"

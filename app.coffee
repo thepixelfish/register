@@ -57,40 +57,45 @@ app.configure 'production', ->
 app.get '/', (req, res) ->
   coll.find({old: false}).toArray (error, entries) ->
     data = JSON.stringify(entries)
-    data = [] if data is ""
+    # data = [] if data is ""
     res.render('index.jade', {length: password.length, entries: data})
 
 app.post '/unlock', (req, res) ->
   res.send(req.param('code') is password)
 
 
+
+# Database
+
+insertEntry = (data, callback) ->
+  data.old = false
+  coll.insert data, ->
+    updateCount()
+    callback()
+
+consumeEntries = (callback) ->
+  coll.update {old: false}, {$set: {old: true}}, {multi: true}, ->
+    updateCount()
+    callback()
+
+setWinner = (data, callback) ->
+  clearWinner ->
+    coll.update {old: false, email: data.email}, {$set: {winner: true}}, ->
+      callback()
+
+clearWinner = (callback) ->
+  coll.update {old: false}, {$set: {winner: false}}, {multi: true}, ->
+    callback()
+
+updateCount = ->
+  coll.count {old: false}, (err, count) ->
+    io.sockets.emit('updatedEntryCount', count)
+
+
+
 # Sockets
 
 io.sockets.on 'connection', (socket) ->
-  insertEntry = (data, callback) ->
-    data['old'] = false
-    coll.insert data, ->
-      updateCount()
-      callback()
-
-  consumeEntries = (callback) ->
-    coll.update {old: false}, {$set: {old: true}}, {multi: true}, ->
-      updateCount()
-      callback()
-
-  setWinner = (data, callback) ->
-    coll.update({old: false}, {$set: {winner: false}}, {multi: true}) # reset winner
-    coll.update({old: false, email: data.email}, {$set: {winner: true}}) # set winner
-    callback()
-
-  clearWinner = (callback) ->
-    coll.update({old: false}, {$set: {winner: false}}, {multi: true}) # reset winner
-    callback()
-
-  updateCount = ->
-    coll.count {old: false}, (err, count) ->
-      io.sockets.emit('updatedEntryCount', count)
-
   updateCount() # on connection
 
   socket.on 'submitEntry', (data) ->
