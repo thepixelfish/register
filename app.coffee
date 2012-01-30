@@ -57,7 +57,6 @@ app.configure 'production', ->
 app.get '/', (req, res) ->
   coll.find({old: false}).toArray (error, entries) ->
     data = JSON.stringify(entries)
-    # data = [] if data is ""
     res.render('index.jade', {length: password.length, entries: data})
 
 app.post '/unlock', (req, res) ->

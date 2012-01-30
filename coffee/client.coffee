@@ -118,6 +118,9 @@ $ ->
     $("#admin-area").fadeOut 1000
     socket.emit "consumeEntries"
 
+  $(window).keyup (e) ->
+     $('#admin-area').fadeOut() if e.keyCode is 27
+
   $.each window.entries, (i, entry) ->
     prependEntry entry
 
