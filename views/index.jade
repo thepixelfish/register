@@ -12,34 +12,32 @@
   input#unlock-code.span2(type="password")
 
   #actions(style="display:none;")
-    input#random-entry.btn.success(type="submit", value="Pick Winner")
-    input#clear-winner.btn(type="submit", value="Clear Winner")
-    input#save-entries.btn.danger(type="submit", value="Consume Entries")
+    input#random-entry.btn.btn-success(type="submit", value="Pick Winner")
+    input#clear-winner.btn.btn-warning(type="submit", value="Clear Winner")
+    input#save-entries.btn.btn-danger(type="submit", value="Consume Entries")
 
-#new-entry-form
-  input#name.span3(type="text", value="", placeholder="Name")
-  input#email.span3(type="email", value="", placeholder="Email")
+form#new-entry-form.form-horizontal
+  input#name.span2(type="text", value="", placeholder="Name")
+  input#email.span2(type="email", value="", placeholder="Email")
   input#twitter.span2(type="text", value="", placeholder="Twitter")
 
-  select#license.span3
+  select#license.span2
     option Preferred License
     option RubyMine
     option PyCharm
     option IntelliJ IDEA
     option ReSharper
 
-  .checkbox
-    input#new_to_ruby(type="checkbox")
-    label(for="new_to_ruby") New to Ruby?
+  input#new_to_ruby(type="checkbox")
+  label.checkbox.inline(for="new_to_ruby") New to Ruby?
 
-  .checkbox
-    input#new_to_crb(type="checkbox")
-    label(for="new_to_crb") New to CRB?
+  input#new_to_crb(type="checkbox")
+  label.checkbox.inline(for="new_to_crb") New to CRB?
 
-  input#save.btn.primary(type="submit", value="Save")
+  input#save.btn.btn-primary(type="submit", value="Save")
 
 
-table#contest.condensed-table.zebra-striped
+table#contest.table.table-condensed.table-striped
   thead
     tr
       th &nbsp;
