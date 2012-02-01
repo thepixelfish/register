@@ -1,9 +1,14 @@
 .page-header
   h1 Columbus Ruby Brigade Register
 
-#blurb
-  p One entry per attendee. The CRB will use this email address as the licensee address.
-  p Licenses arrive via email &mdash; usually within three weeks.
+#rules-area
+  h3 Contest Rules
+  ul
+    li One entry per attendee.
+    li Must be present to win!
+    li Must have more than 30 attendees for a giveaway.
+    li Licenses arrive via email &mdash; usually within three weeks.
+    li The CRB will use this email address as the licensee address.
 
 
 #admin-link Super Secret Admin Area
@@ -30,7 +35,7 @@ form#new-entry-form.form-horizontal
   input#twitter.span2(type="text", value="", placeholder="Twitter")
 
   select#license.span2
-    option Preferred License
+    option No License
     option RubyMine
     option PyCharm
     option IntelliJ IDEA
@@ -49,9 +54,9 @@ form#new-entry-form.form-horizontal
 
 #progress-area
   h3
-    = "License Giveaway Goal "
+    = "Contest Attendence Goal "
     small (30 attendees)
-  .progress.progress-info.progress-striped.active
+  .progress.progress-success.progress-striped.active
     .bar(style="width: 0%;")
 
 
