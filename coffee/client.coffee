@@ -62,6 +62,15 @@ $ ->
     $("#save").removeClass "disabled"
     $(this).removeClass "error"
 
+  $('#email').keyup ->
+    regex = new RegExp(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/gi)
+    if $(this).val().match(regex)
+      $(this).removeClass('error')
+      $("#save").removeClass "disabled"
+    else
+      $(this).addClass('error')
+      $("#save").addClass "disabled"
+
   $("#save").click (e) ->
     e.preventDefault()
     nameInput          = $("input#name")
