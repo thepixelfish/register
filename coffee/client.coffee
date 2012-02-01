@@ -24,7 +24,7 @@ $ ->
 
     presenter.cssClass.push "winner" if entry.winner is true
     presenter.cssClass = presenter.cssClass.join(' ')
-    row = target.prepend(template(presenter)).children(":first").hide().fadeIn(1500)
+    row = target.prepend(template(presenter))
     row.find('.gravatar img').mouseenter() if entry.winner
 
   clearWinner = ->
@@ -151,6 +151,9 @@ $ ->
     e.preventDefault()
     $("#admin-area").fadeOut 1000
     socket.emit "consumeEntries"
+
+  $('.alert a.close').click ->
+    $(this).parents('.alert').fadeOut()
 
   $(window).keyup (e) ->
      $('#admin-area').slideUp 'fast' if e.keyCode is 27

@@ -1,14 +1,23 @@
 .page-header
   h1 Columbus Ruby Brigade Register
 
-#rules-area
-  h3 Contest Rules
+#rules-area.alert.alert-warning
+  a.close x
+  h3.alert-heading Contest Rules
   ul
     li One entry per attendee.
     li Must be present to win!
-    li Must have more than 30 attendees for a giveaway.
+    li Must have at least 30 attendees for a giveaway.
     li Licenses arrive via email &mdash; usually within three weeks.
     li The CRB will use this email address as the licensee address.
+
+#progress-area
+  h3
+    = "Contest Attendence Goal "
+    small (30 attendees)
+  .progress.progress-info.progress-striped.active
+    .bar(style="width: 0%;")
+
 
 
 #admin-link Super Secret Admin Area
@@ -50,14 +59,6 @@ form#new-entry-form.form-horizontal
   a#save.btn.btn-success(href="#")
     i.icon-plus.icon-white
     = " Register"
-
-
-#progress-area
-  h3
-    = "Contest Attendence Goal "
-    small (30 attendees)
-  .progress.progress-success.progress-striped.active
-    .bar(style="width: 0%;")
 
 
 table#contest.table.table-condensed.table-striped
