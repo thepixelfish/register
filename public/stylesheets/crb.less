@@ -1,3 +1,12 @@
+/* Mixins */
+.box-shadow (@color: #DDD) {
+  -moz-box-shadow: 0 0 5px @color;
+  -webkit-box-shadow: 0 0 5px @color;
+  box-shadow: 0 0 5px @color;
+}
+
+
+
 .container {
   width: 960px;
   margin: auto;
@@ -36,19 +45,17 @@ input.error,select.error {
 
 tr.winner td {
   font-weight: bold;
-  background: #fce9bf !important;
+  background-color: #F9F0C4 !important;
 }
 
 #admin-area {
+  .box-shadow(#888);
   position: absolute;
   top: 0;
   right: 0;
   padding: 1em;
   background: #f5f5f5;
   border: 1px solid #ddd;
-  -moz-box-shadow: 0 0 5px #888;
-  -webkit-box-shadow: 0 0 5px #888;
-  box-shadow: 0 0 5px #888;
 
   input {
     margin: 0;
@@ -60,7 +67,7 @@ tr.winner td {
   }
 
   #actions {
-    input {
+    a {
       margin-right: 1em;
 
       &:last-child {
@@ -88,22 +95,31 @@ tr.winner td {
 }
 
 #new-entry-form {
+  .box-shadow;
   background: #f5f5f5;
   border: 1px solid #ddd;
-  margin-bottom: 2em;
+  margin: 3em 0;
   padding: 1em;
 
   .checkbox {
     padding-left: 0.5em;
-    margin-right: 1.5em;
+    margin-right: 0.5em;
     font-weight: bold;
   }
 
-  input[type=text], select {
+  a#save {
+    margin-left: 0.5em;
+  }
+
+  input[type=text], input[type=email], select {
     margin-right: 1em;
 
     &:last-child {
       margin-right: 0;
     }
   }
+}
+
+#progress-area {
+  margin-bottom: 3em;
 }

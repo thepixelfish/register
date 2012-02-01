@@ -1,20 +1,28 @@
 .page-header
-  h1
-    = "Columbus CRB Register "
-    small JetBrains License Giveaway
+  h1 Columbus Ruby Brigade Register
 
 #blurb
-  p One entry per attendee. The CRB host will use this email address as the licensee address.
+  p One entry per attendee. The CRB will use this email address as the licensee address.
   p Licenses arrive via email &mdash; usually within three weeks.
+
 
 #admin-link Super Secret Admin Area
 #admin-area(style="display:none;")
   input#unlock-code.span2(type="password")
 
   #actions(style="display:none;")
-    input#random-entry.btn.btn-success(type="submit", value="Pick Winner")
-    input#clear-winner.btn.btn-warning(type="submit", value="Clear Winner")
-    input#save-entries.btn.btn-danger(type="submit", value="Consume Entries")
+    a#random-entry.btn.btn-success(href="#")
+      i.icon-star.icon-white
+      = " Pick Winner"
+
+    a#clear-winner.btn.btn-warning(href="#")
+      i.icon-repeat.icon-white
+      = " Clear Winner"
+
+    a#save-entries.btn.btn-danger(href="#")
+      i.icon-remove.icon-white
+      = " Consume Entries"
+
 
 form#new-entry-form.form-horizontal
   input#name.span2(type="text", value="", placeholder="Name")
@@ -34,7 +42,17 @@ form#new-entry-form.form-horizontal
   input#new_to_crb(type="checkbox")
   label.checkbox.inline(for="new_to_crb") New to CRB?
 
-  input#save.btn.btn-primary(type="submit", value="Save")
+  a#save.btn.btn-success(href="#")
+    i.icon-plus.icon-white
+    = " Register"
+
+
+#progress-area
+  h3
+    = "License Giveaway Goal "
+    small (30 attendees)
+  .progress.progress-info.progress-striped.active
+    .bar(style="width: 0%;")
 
 
 table#contest.table.table-condensed.table-striped
@@ -50,7 +68,8 @@ table#contest.table.table-condensed.table-striped
 
   tbody
 
-h5#count
+h6#count
+
 
 script#entry-template(type='text/x-handlebars-template')
   tr(class="{{cssClass}}")
@@ -59,10 +78,18 @@ script#entry-template(type='text/x-handlebars-template')
     td.name {{name}}
     td.email {{email}}
     td.twitter
-      a(href="http://twitter.com/{{twitter}}", target="_blank") {{handle}}
+      {{#if twitter}}
+      a(href="http://twitter.com/{{twitter}}", target="_blank") @{{twitter}}
+      {{/if}}
     td.license {{license}}
-    td.new-to-ruby {{newToRuby}}
-    td.new-to-crb {{newToCrb}}
+    td.new-to-ruby
+      {{#if newToRuby}}
+      span.label.label-success {{newToRuby}}
+      {{/if}}
+    td.new-to-crb
+      {{#if newToCrb}}
+      span.label.label-success {{newToCrb}}
+      {{/if}}
 
 
 script(type='text/javascript')

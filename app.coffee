@@ -90,13 +90,13 @@ clearWinner = (callback) ->
 updateCount = ->
   coll.count {old: false}, (err, count) ->
     io.sockets.emit('updatedEntryCount', count)
-
+    io.sockets.emit('updateProgressBar', (count / 30) * 100)
 
 
 # Sockets
 
 io.sockets.on 'connection', (socket) ->
-  updateCount() # on connection
+  updateCount()
 
   socket.on 'submitEntry', (data) ->
     insertEntry data, ->

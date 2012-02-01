@@ -7,15 +7,17 @@ $ ->
   prependEntry = (entry) ->
     presenter           = entry
     presenter.cssClass  = if entry.winner is true then "winner" else ""
-    presenter.newToCrb  = if entry.new_to_crb is true then "Welcome!" else ""
-    presenter.newToRuby = if entry.new_to_ruby is true then "Welcome!" else ""
-    presenter.handle    = if entry.twitter.length > 0 then "@#{entry.twitter}" else ""
+    presenter.newToCrb  = if entry.new_to_crb is true then "Welcome" else ""
+    presenter.newToRuby = if entry.new_to_ruby is true then "Welcome" else ""
     row = target.prepend(template(presenter)).children(":first").hide().fadeIn(1500)
     row.find('.gravatar img').mouseenter() if entry.winner
 
   clearWinner = ->
     $('.winner').removeClass("winner")
     $(".gravatar img").mouseleave()
+
+  socket.on "updateProgressBar", (percentage) ->
+    $('.progress .bar').css('width', "#{percentage}%")
 
   socket.on "newEntryPosted", (entry) ->
     prependEntry entry
@@ -39,17 +41,21 @@ $ ->
 
   $("#admin-link").click ->
     $(this).hide()
-    $("#admin-area").show "blind"
+    $("#admin-area").slideDown 'fast'
     $("#unlock-code").focus()
 
   $("#unlock-code").keyup (e) ->
     input = $(this)
+    box   = $('#admin-area')
     if input.val().length is window.length
       $.post "/unlock", {code: input.val()}, (response) ->
         if response is true
-          $("#actions").show()
-          input.val("").hide()
+          box.slideUp 'fast', ->
+            input.val("").hide()
+            $("#actions").show()
+            box.slideDown 'fast'
         else
+          box.slideUp 'fast'
           input.val ""
 
   $("#name, #email, #license").bind "keyup change", (e) ->
@@ -120,7 +126,7 @@ $ ->
     socket.emit "consumeEntries"
 
   $(window).keyup (e) ->
-     $('#admin-area').fadeOut(1000) if e.keyCode is 27
+     $('#admin-area').slideUp 'fast' if e.keyCode is 27
 
   $.each window.entries, (i, entry) ->
     prependEntry entry
