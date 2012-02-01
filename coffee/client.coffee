@@ -1,21 +1,38 @@
 $ ->
-  socket       = io.connect(window.location.hostname)
-  source       = $("#entry-template").html()
-  template     = Handlebars.compile(source)
-  target       = $("tbody")
+  socket     = io.connect(window.location.hostname)
+  source     = $("#entry-template").html()
+  template   = Handlebars.compile(source)
+  target     = $("tbody")
+  emailRegex = new RegExp(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/gi)
+
+
+  jQuery.fn.random = ->
+    randomIndex = Math.floor(Math.random() * this.length)
+    return $(this[randomIndex])
 
   prependEntry = (entry) ->
     presenter           = entry
-    presenter.cssClass  = if entry.winner is true then "winner" else ""
     presenter.newToCrb  = if entry.new_to_crb is true then "Welcome" else ""
     presenter.newToRuby = if entry.new_to_ruby is true then "Welcome" else ""
-    presenter.license   = if entry.license is "No License" then "" else entry.license
+    presenter.cssClass  = []
+
+    if entry.license is "No License"
+      presenter.license = ""
+    else
+      presenter.license = entry.license
+      presenter.cssClass.push "eligible"
+
+    presenter.cssClass.push "winner" if entry.winner is true
+    presenter.cssClass = presenter.cssClass.join(' ')
     row = target.prepend(template(presenter)).children(":first").hide().fadeIn(1500)
     row.find('.gravatar img').mouseenter() if entry.winner
 
   clearWinner = ->
     $('.winner').removeClass("winner")
     $(".gravatar img").mouseleave()
+
+
+  # Sockets
 
   socket.on "updateProgressBar", (percentage) ->
     $('.progress .bar').css('width', "#{percentage}%")
@@ -26,11 +43,11 @@ $ ->
   socket.on "hideWinner", (num) ->
     clearWinner()
 
-  socket.on "showWinner", (num) ->
-    rows   = $('tbody tr')
-    winner = rows.eq(parseInt(num) - 1)
-    middle = winner.offset().top - ($(window).height() / 2)
+  socket.on "showWinner", (data) ->
     clearWinner()
+    rows   = $('tbody tr.eligible')
+    winner = rows.eq(data.index - 1)
+    middle = winner.offset().top - ($(window).height() / 2)
     $("html, body").animate {scrollTop: middle}, 500, ->
       winner.effect("pulsate", {times: 1}).addClass("winner").find(".gravatar img").mouseenter()
 
@@ -39,6 +56,16 @@ $ ->
 
   socket.on "updatedEntryCount", (count) ->
     $("#count").html count + " attendees"
+
+
+
+  # jQuery bindings
+
+  $("#random-entry").click (e) ->
+    e.preventDefault()
+    row   = $('tbody tr.eligible').random()
+    email = row.find(".email").html()
+    socket.emit "winnerChosen", {index: row.index(), email: email}
 
   $("#admin-link").click ->
     $(this).hide()
@@ -64,8 +91,7 @@ $ ->
     $(this).removeClass "error"
 
   $('#email').keyup ->
-    regex = new RegExp(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/gi)
-    if $(this).val().match(regex)
+    if $(this).val().match(emailRegex)
       $(this).removeClass('error')
       $("#save").removeClass "disabled"
     else
@@ -116,13 +142,6 @@ $ ->
   $("#clear-winner").click (e) ->
     e.preventDefault()
     socket.emit "winnerCleared"
-
-  $("#random-entry").click (e) ->
-    e.preventDefault()
-    rows   = $('tbody tr')
-    row   = Math.ceil(Math.random() * rows.length)
-    email = rows.eq(row - 1).find(".email").html()
-    socket.emit "winnerChosen", {row: row, email: email}
 
   $(".gravatar img").live
     mouseenter: -> $(this).stop().animate {width: "64px", height: "64px"}, 500

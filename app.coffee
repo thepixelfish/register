@@ -105,7 +105,7 @@ io.sockets.on 'connection', (socket) ->
 
   socket.on 'winnerChosen', (data) ->
     setWinner data, ->
-      io.sockets.emit('showWinner', data.row)
+      io.sockets.emit('showWinner', data)
 
   socket.on 'winnerCleared', ->
     clearWinner ->
