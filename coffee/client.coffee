@@ -9,6 +9,7 @@ $ ->
     presenter.cssClass  = if entry.winner is true then "winner" else ""
     presenter.newToCrb  = if entry.new_to_crb is true then "Welcome" else ""
     presenter.newToRuby = if entry.new_to_ruby is true then "Welcome" else ""
+    presenter.license   = if entry.license is "No License" then "" else entry.license
     row = target.prepend(template(presenter)).children(":first").hide().fadeIn(1500)
     row.find('.gravatar img').mouseenter() if entry.winner
 
@@ -99,8 +100,6 @@ $ ->
     $.each fields, (i, input) ->
       if input is nameInput or input is emailInput
         validate input, ""
-      else if input is licenseSelect
-        validate input, "Preferred License"
       else
         storeValue input
 
