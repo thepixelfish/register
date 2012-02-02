@@ -24,8 +24,8 @@ $ ->
 
     presenter.cssClass.push "winner" if entry.winner is true
     presenter.cssClass = presenter.cssClass.join(' ')
-    row = target.prepend(template(presenter))
-    row.find('.gravatar img').mouseenter() if entry.winner
+    row = target.prepend(template(presenter)).find(':first')
+    row.find('.gravatar img').mouseenter() if entry.winner is true
 
   clearWinner = ->
     $('.winner').removeClass("winner")
@@ -45,8 +45,8 @@ $ ->
 
   socket.on "showWinner", (data) ->
     clearWinner()
-    rows   = $('tbody tr.eligible')
-    winner = rows.eq(data.index - 1)
+    rows   = $('tbody tr')
+    winner = rows.eq(data.index)
     middle = winner.offset().top - ($(window).height() / 2)
     $("html, body").animate {scrollTop: middle}, 500, ->
       winner.effect("pulsate", {times: 1}).addClass("winner").find(".gravatar img").mouseenter()

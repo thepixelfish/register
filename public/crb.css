@@ -2,7 +2,7 @@
 #rules-area{margin-bottom:2em}
 table#contest th{border-bottom:1px solid #ddd !important}
 table#contest td{line-height:26px;vertical-align:middle;}
-table#contest td.gravatar img{width:24px;height:24px}
+table#contest td.gravatar img{width:24px;height:24px;border-radius:4em;-moz-border-radius:4em;-webkit-border-radius:4em}
 table#contest td.twitter{text-transform:lowercase}
 #count{text-align:right;font-weight:bold}
 input.error,select.error{border-color:#dc143c;color:#dc143c}
