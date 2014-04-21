@@ -20,45 +20,45 @@
 
 
 
-      #admin-link Super Secret Admin Area
+#admin-link Super Secret Admin Area
 #admin-area(style="display:none;")
   input#unlock-code.span2(type="password")
 
-    #actions(style="display:none;")
-      a#random-entry.btn.btn-success(href="#")
-        i.icon-star.icon-white
-          = " Pick Winner"
+  #actions(style="display:none;")
+    a#random-entry.btn.btn-success(href="#")
+      i.icon-star.icon-white
+      = " Pick Winner"
 
     a#clear-winner.btn.btn-warning(href="#")
       i.icon-repeat.icon-white
-        = " Clear Winner"
+      = " Clear Winner"
 
     a#save-entries.btn.btn-danger(href="#")
       i.icon-remove.icon-white
-        = " Consume Entries"
+      = " Consume Entries"
 
 
 form#new-entry-form.form-horizontal
   input#name.span2(type="text", value="", placeholder="Name")
-    input#email.span2(type="email", value="", placeholder="Email")
-      input#twitter.span2(type="text", value="", placeholder="Twitter")
+  input#email.span2(type="email", value="", placeholder="Email")
+  input#twitter.span2(type="text", value="", placeholder="Twitter")
 
-        select#license.span2
-          option No License
+  select#license.span2
+    option No License
     option RubyMine
     option PyCharm
     option IntelliJ IDEA
     option ReSharper
 
   input#new_to_ruby(type="checkbox")
-    label.checkbox.inline(for="new_to_ruby") New to Ruby?
+  label.checkbox.inline(for="new_to_ruby") New to Ruby?
 
   input#new_to_crb(type="checkbox")
-    label.checkbox.inline(for="new_to_crb") New to CRB?
+  label.checkbox.inline(for="new_to_crb") New to CRB?
 
   a#save.btn.btn-success(href="#")
     i.icon-plus.icon-white
-      = " Register"
+    = " Register"
 
 
 table#contest.table.table-condensed.table-striped
@@ -74,11 +74,11 @@ table#contest.table.table-condensed.table-striped
 
   tbody
 
-    h6#count
+h6#count
 
 
-      script#entry-template(type='text/x-handlebars-template')
-        tr(class="{{cssClass}}")
+script#entry-template(type='text/x-handlebars-template')
+  tr(class="{{cssClass}}")
     td.gravatar
       img(src="http://www.gravatar.com/avatar/{{hash}}?s=64")
     td.name {{name}}
