@@ -99,9 +99,9 @@ script#entry-template(type='text/x-handlebars-template')
 
 
 script(type='text/javascript')
-  $(function(){
-  window.length  = #{length};
-  window.entries = !{entries};
-  });
+  |$(function(){
+  |  window.length  = #{length};
+  |  window.entries = !{entries};
+  |});
 
 script(type='text/javascript', src="/client.js")
