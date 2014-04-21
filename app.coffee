@@ -3,7 +3,7 @@
 onHeroku = process.env.PORT
 
 if onHeroku
-  dbString = "mongodb://heroku:edgecase@staff.mongohq.com:10066/app2636005"
+  dbString = "mongodb://crb:whatever@oceanic.mongohq.com:10046/crb"
   port     = process.env.PORT
 else
   dbString = "localhost:27017/crb_register"
