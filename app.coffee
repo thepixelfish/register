@@ -3,10 +3,10 @@
 onHeroku = process.env.PORT
 
 if onHeroku
-  dbString = "mongodb://crb:whatever@oceanic.mongohq.com:10046/crb"
+  dbString = process.env.MONGODB_URI
   port     = process.env.PORT
 else
-  dbString = "localhost:27017/crb_register"
+  dbString = "mongodb://localhost:27017/crb_register"
   port     = 3000
 
 express   = require('express')
