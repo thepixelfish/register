@@ -8,7 +8,7 @@
     "jade": "1.1.x",
     "mongodb": "^2.2.24",
     "mongoskin": ">= 0.0.1",
-    "socket.io": ">= 0.0.1",
+    "socket.io": "< 1.0",
     "stylus": ">= 0.0.1"
   }
 }
