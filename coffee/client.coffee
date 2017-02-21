@@ -1,5 +1,5 @@
 $ ->
-  socket     = io.connect(window.location.hostname)
+  socket     = io.connect(window.location.origin)
   source     = $("#entry-template").html()
   template   = Handlebars.compile(source)
   target     = $("tbody")
