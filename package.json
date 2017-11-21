@@ -4,11 +4,12 @@
   "private": true,
   "dependencies": {
     "coffee-script": "latest",
-    "express": "2.5.2",
+    "express": "2.5.10",
     "jade": "1.1.x",
-    "mongodb": "^2.2.24",
+    "mongodb": "2.2.x",
     "mongoskin": ">= 0.0.1",
     "socket.io": "< 1.0",
-    "stylus": ">= 0.0.1"
+    "stylus": ">= 0.0.1",
+    "escape-html": "1.x"
   }
 }
