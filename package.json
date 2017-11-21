@@ -9,6 +9,7 @@
     "mongodb": "2.2.x",
     "mongoskin": ">= 0.0.1",
     "socket.io": "< 1.0",
-    "stylus": ">= 0.0.1"
+    "stylus": ">= 0.0.1",
+    "escape-html": "1.x"
   }
 }

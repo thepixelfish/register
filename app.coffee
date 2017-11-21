@@ -23,6 +23,7 @@ publicDir = __dirname + '/public'
 cssDir    = publicDir + '/stylesheets'
 # jsDir     = publicDir + '/javascripts'
 password  = "crb!"
+escape    = require('escape-html')
 
 
 # Configuration
@@ -54,13 +55,28 @@ app.configure 'production', ->
 
 app.get '/', (req, res) ->
   coll.find({old: false}).toArray (error, entries) ->
-    data = JSON.stringify(entries)
+    data = JSON.stringify(sanitizedEntries(entries))
     res.render('index.jade', {length: password.length, entries: data})
 
 app.post '/unlock', (req, res) ->
   res.send(req.param('code') is password)
 
+# Sanitization helpers
 
+sanitizedEntries = (entries) ->
+  newEntries = []
+  for entry in entries
+    newEntries.push sanitizedEntry(entry)
+  newEntries
+
+sanitizedEntry = (entry) ->
+  newEntry = {}
+  for key, value of entry
+    newEntry[key] = sanitizedValue(value)
+  newEntry
+
+sanitizedValue = (value) ->
+  if typeof value is 'string' then escape(value) else value
 
 # Database
 
