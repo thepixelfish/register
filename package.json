@@ -6,7 +6,7 @@
     "coffee-script": "latest",
     "express": "2.5.10",
     "jade": "1.1.x",
-    "mongodb": "2.2.x",
+    "mongodb": "3.6.3",
     "mongoskin": ">= 0.0.1",
     "socket.io": "< 1.0",
     "stylus": ">= 0.0.1",
